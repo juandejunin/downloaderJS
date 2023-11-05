@@ -5,11 +5,9 @@ const fs = require('fs');
 const path = require('path');
 
 
- let url = 'https://www.youtube.com/watch?v=M1lGXi1yzF0'
+let url = 'https://www.youtube.com/watch?v=M1lGXi1yzF0'
 
-
-
- async function obtenerTituloDesdeURL(url) {
+async function obtenerTituloDesdeURL(url) {
     try {
         const response = await axios.get(url);
         const html = response.data;
@@ -22,18 +20,34 @@ const path = require('path');
     }
 }
 
+
 const title = async () => {
     return await obtenerTituloDesdeURL(url);
 };
 
-console.log(title)
+title()
+    .then(titulo => {
+        console.log('esto es el titulo: ' + titulo);
+    })
+    .catch(error => {
+        console.error('Error al obtener el título:', error);
+    });
 
-function obtenerTituloAlfabetico(titulo) {
+
+function obtenerTituloAlfabetico(title) {
     // Elimina caracteres no alfabéticos y une las palabras sin espacios
     const tituloAlfabetico = titulo.replace(/[^a-zA-Z]/g, '');
     return tituloAlfabetico;
 }
 
+
+obtenerTituloAlfabetico()
+    .then(tituloAlfabetico => {
+        console.log('esto es el titulo: ' + tituloAlfabetico);
+    })
+    .catch(error => {
+        console.error('Error al obtener el título:', error);
+    });
 
 
 
@@ -44,12 +58,12 @@ async function descargarVideoYConvertirMP3(url, outputDir) {
     };
 
     // Obtiene el título fuera de la función
-    
+
 
     try {
         // Resto del código, incluyendo el uso de outputDir
 
-        const videoFilePath =  `./descargas${title}.mp4`;
+        const videoFilePath = `./descargas${title}.mp4`;
         console.log(videoFilePath)
         const mp3OutputPath = path.join(outputDir, `${generarNombreUnico(title)}.mp3`);
 
